@@ -5,8 +5,10 @@ export const ContactList = ({ contacts }) => (
 		<h1>Contacts</h1>
 		{contacts.length ? (
 			<ul>
-				{contacts.map(({ id, name }) => (
-					<li key={id}>{name}</li>
+				{contacts.map(({ id, name, phone }) => (
+					<li key={id}>
+						{name}: {phone}
+					</li>
 				))}
 			</ul>
 		) : (
@@ -24,6 +26,7 @@ ContactList.propTypes = {
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
 			name: PropTypes.string.isRequired,
+			phone: PropTypes.string.isRequired,
 		}),
 	),
 };
