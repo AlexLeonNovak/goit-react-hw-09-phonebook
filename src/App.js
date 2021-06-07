@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
+import { notice } from './libs/pnotify';
+
 import { Form } from './components/Form';
 import { ContactList } from './components/ContactList';
-import { Container } from './Styles';
 import { Filter } from './components/Filter';
+
+import './App.css';
+import { Container } from './Styles';
 
 class App extends Component {
 	state = {
@@ -17,6 +20,18 @@ class App extends Component {
 	};
 
 	addContact = data => {
+		const { contacts } = this.state;
+		const { name, phone } = data;
+		const isContactExist = contacts.some(
+			contact => contact.name === name || contact.phone === phone,
+		);
+		if (isContactExist) {
+			notice({
+				title: 'The contact is already in the list',
+				text: 'Please, add a contact with a different name or phone number',
+			});
+			return;
+		}
 		this.setState(prevState => ({
 			contacts: [data, ...prevState.contacts],
 		}));
