@@ -37,6 +37,12 @@ class App extends Component {
 		}));
 	};
 
+	deleteContact = id => {
+		this.setState(prevState => ({
+			contacts: prevState.contacts.filter(contact => contact.id !== id),
+		}));
+	};
+
 	setFilter = e => {
 		this.setState({ filter: e.target.value });
 	};
@@ -60,7 +66,10 @@ class App extends Component {
 					<h1>Phonebook</h1>
 					<Form onFormSubmit={this.addContact} />
 					<Filter value={filter} onFilterInput={this.setFilter} />
-					<ContactList contacts={this.getContacts()} />
+					<ContactList
+						contacts={this.getContacts()}
+						onDeleteClick={this.deleteContact}
+					/>
 				</Container>
 			</React.StrictMode>
 		);

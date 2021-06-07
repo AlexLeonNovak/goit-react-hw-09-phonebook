@@ -1,14 +1,20 @@
 import PropTypes from 'prop-types';
+import { Button } from '../../Styles';
+import { Li } from './styles';
 
-export const ContactList = ({ contacts }) => (
+export const ContactList = ({ contacts, onDeleteClick }) => (
 	<>
 		<h1>Contacts</h1>
 		{contacts.length ? (
 			<ul>
 				{contacts.map(({ id, name, phone }) => (
-					<li key={id}>
+					<Li key={id}>
 						{name}: {phone}
-					</li>
+						<Button onClick={() => onDeleteClick(id)}>
+							<span className="material-icons">delete</span>
+							Delete
+						</Button>
+					</Li>
 				))}
 			</ul>
 		) : (
@@ -29,4 +35,5 @@ ContactList.propTypes = {
 			phone: PropTypes.string.isRequired,
 		}),
 	),
+	onDeleteClick: PropTypes.func.isRequired,
 };

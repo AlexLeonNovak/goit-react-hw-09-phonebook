@@ -25,3 +25,27 @@ export const Label = styled.label`
 	flex-basis: 20%;
 `;
 Label.displayName = 'Label';
+
+export const Input = styled.input`
+	border: 1px solid #000;
+	background: #fff;
+	color: #000;
+	padding: 5px 15px;
+`;
+Input.displayName = 'Input';
+
+export const Button = styled.button`
+	border: 1px solid #000;
+	background: #fff;
+	color: #000;
+	padding: 5px 15px;
+	transition: all 200ms ease-in-out;
+	font-size: 16px;
+	align-items: center;
+	display: inline-flex;
+	&:hover {
+		background: #000;
+		color: #fff;
+	}
+`;
+Button.displayName = 'Button';

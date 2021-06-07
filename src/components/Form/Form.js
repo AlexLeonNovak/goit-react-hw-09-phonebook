@@ -2,7 +2,7 @@ import shortid from 'shortid';
 import { v4 as uuid4 } from 'uuid';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Label, FormElement } from '../../Styles';
+import { FormGroup, Label, FormElement, Button, Input } from '../../Styles';
 
 const initState = {
 	name: '',
@@ -34,7 +34,7 @@ export class Form extends Component {
 			<FormElement onSubmit={this.onFormSubmit}>
 				<FormGroup>
 					<Label htmlFor={inputNameId}>Name</Label>
-					<input
+					<Input
 						id={inputNameId}
 						type="text"
 						name="name"
@@ -47,7 +47,7 @@ export class Form extends Component {
 				</FormGroup>
 				<FormGroup>
 					<Label htmlFor={inputPhoneId}>Phone</Label>
-					<input
+					<Input
 						id={inputPhoneId}
 						type="tel"
 						name="phone"
@@ -57,7 +57,7 @@ export class Form extends Component {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<button type="submit">Add contact</button>
+					<Button type="submit">Add contact</Button>
 				</FormGroup>
 			</FormElement>
 		);
