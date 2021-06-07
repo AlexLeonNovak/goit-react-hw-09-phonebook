@@ -2,7 +2,7 @@ import shortid from 'shortid';
 import { v4 as uuid4 } from 'uuid';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormStyle, FormGroup, Label, FormElement } from './Styles';
+import { FormGroup, Label, FormElement } from '../../Styles';
 
 const initState = {
 	name: '',
