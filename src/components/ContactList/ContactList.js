@@ -41,6 +41,7 @@ ContactList.propTypes = {
 };
 
 const getContacts = (allContacts, filter) => {
+	console.log(allContacts);
 	const normalizedFilter = filter.toLowerCase().trim();
 	return allContacts.filter(
 		contact =>
