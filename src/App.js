@@ -21,21 +21,3 @@ const App = () => {
 };
 
 export default App;
-
-/*
-	componentDidMount() {
-		const contactsJson = localStorage.getItem('contacts');
-		const contacts = JSON.parse(contactsJson);
-		if (contacts) {
-			this.setState({ contacts });
-		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		const { contacts } = this.state;
-		if (contacts !== prevState.contacts) {
-			localStorage.setItem('contacts', JSON.stringify(contacts));
-		}
-	}
-
- */
