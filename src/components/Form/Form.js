@@ -1,15 +1,19 @@
 import shortid from 'shortid';
+import { connect } from 'react-redux';
 import { v4 as uuid4 } from 'uuid';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { notice } from '../../libs/pnotify';
 import { FormGroup, Label, FormElement, Button, Input } from '../../Styles';
+import { addContact } from '../../redux/contacts/contacts.actions';
 
 const initState = {
 	name: '',
 	phone: '',
 };
 
-export class Form extends Component {
+class Form extends Component {
 	state = initState;
 
 	onInputChange = e => {
@@ -19,6 +23,18 @@ export class Form extends Component {
 
 	onFormSubmit = e => {
 		e.preventDefault();
+		const { name, phone } = this.state;
+		const { contacts } = this.props;
+		const isContactExist = contacts.some(
+			contact => contact.name === name || contact.phone === phone,
+		);
+		if (isContactExist) {
+			notice({
+				title: 'The contact is already in the list',
+				text: 'Please, add a contact with a different name or phone number',
+			});
+			return;
+		}
 		this.props.onFormSubmit({
 			...this.state,
 			id: uuid4(),
@@ -67,3 +83,13 @@ export class Form extends Component {
 Form.propTypes = {
 	onFormSubmit: PropTypes.func.isRequired,
 };
+
+const mstp = state => ({
+	contacts: state.contacts.items,
+});
+
+const mdtp = dispatch => ({
+	onFormSubmit: contact => dispatch(addContact(contact)),
+});
+
+export default connect(mstp, mdtp)(Form);

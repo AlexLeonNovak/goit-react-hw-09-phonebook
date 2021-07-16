@@ -1,7 +1,9 @@
 import shortid from 'shortid';
+import { connect } from 'react-redux';
 import { FormElement, FormGroup, Input, Label } from '../../Styles';
+import { changeFilter } from '../../redux/contacts/contacts.actions';
 
-export const Filter = ({ value, onFilterInput }) => {
+const Filter = ({ value, onFilterInput }) => {
 	const inputFilterId = shortid.generate();
 	return (
 		<FormElement>
@@ -17,3 +19,13 @@ export const Filter = ({ value, onFilterInput }) => {
 		</FormElement>
 	);
 };
+
+const mstp = state => ({
+	value: state.contacts.filter,
+});
+
+const mdtp = dispatch => ({
+	onFilterInput: e => dispatch(changeFilter(e.target.value)),
+});
+
+export default connect(mstp, mdtp)(Filter);
