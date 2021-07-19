@@ -2,6 +2,7 @@ import shortid from 'shortid';
 import { connect } from 'react-redux';
 import { FormElement, FormGroup, Input, Label } from '../../Styles';
 import { changeFilter } from '../../redux/contacts/contacts.actions';
+import { getFilter } from '../../redux/contacts/contacts.selectors';
 
 const Filter = ({ value, onFilterInput }) => {
 	const inputFilterId = shortid.generate();
@@ -21,7 +22,7 @@ const Filter = ({ value, onFilterInput }) => {
 };
 
 const mstp = state => ({
-	value: state.contacts.filter,
+	value: getFilter(state),
 });
 
 const mdtp = dispatch => ({

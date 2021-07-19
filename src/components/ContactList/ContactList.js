@@ -4,6 +4,10 @@ import { Button } from '../../Styles';
 import { Li } from './styles';
 import { connect } from 'react-redux';
 import * as contactsOperations from '../../redux/contacts/contacts.operations';
+import {
+	getFilteredContacts,
+	getLoading,
+} from '../../redux/contacts/contacts.selectors';
 
 const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 	useEffect(() => {
@@ -48,18 +52,9 @@ ContactList.propTypes = {
 	onDeleteClick: PropTypes.func.isRequired,
 };
 
-const getContacts = (allContacts, filter) => {
-	const normalizedFilter = filter.toLowerCase().trim();
-	return allContacts.filter(
-		contact =>
-			contact.name.toLowerCase().trim().includes(normalizedFilter) ||
-			contact.phone.toLowerCase().trim().includes(normalizedFilter),
-	);
-};
-
-const mstp = ({ contacts: { items, filter, loading } }) => ({
-	contacts: getContacts(items, filter),
-	loading,
+const mstp = state => ({
+	contacts: getFilteredContacts(state),
+	loading: getLoading(state),
 });
 
 const mdtp = dispatch => ({
