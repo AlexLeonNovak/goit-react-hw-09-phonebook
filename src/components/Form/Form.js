@@ -1,12 +1,11 @@
 import shortid from 'shortid';
 import { connect } from 'react-redux';
-import { v4 as uuid4 } from 'uuid';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { notice } from '../../libs/pnotify';
 import { FormGroup, Label, FormElement, Button, Input } from '../../Styles';
-import { addContact } from '../../redux/contacts/contacts.actions';
+import { addContact } from '../../redux/contacts/contacts.operations';
 
 const initState = {
 	name: '',
@@ -35,10 +34,7 @@ class Form extends Component {
 			});
 			return;
 		}
-		this.props.onFormSubmit({
-			...this.state,
-			id: uuid4(),
-		});
+		this.props.onFormSubmit({ ...this.state });
 		this.setState(initState);
 	};
 

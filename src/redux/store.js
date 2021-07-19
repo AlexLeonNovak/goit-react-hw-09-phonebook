@@ -14,15 +14,15 @@ import { logger } from 'redux-logger/src';
 
 import contactsReducer from './contacts/contacts.reducer';
 
-const contactsPersistConfig = {
-	key: 'contacts',
-	storage,
-	blacklist: ['filter'],
-};
+// const contactsPersistConfig = {
+// 	key: 'contacts',
+// 	storage,
+// 	blacklist: ['filter'],
+// };
 
 const store = configureStore({
 	reducer: {
-		contacts: persistReducer(contactsPersistConfig, contactsReducer),
+		contacts: contactsReducer,
 	},
 	devTools: process.env.NODE_ENV === 'development',
 	middleware: [
@@ -42,6 +42,6 @@ const store = configureStore({
 	],
 });
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
-export default { store, persistor };
+export default store;
