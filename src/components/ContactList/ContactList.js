@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../../Styles';
 import { Li } from './styles';
 import { connect } from 'react-redux';
-import * as contactsOperations from '../../redux/contacts/contacts.operations';
-import {
-	getFilteredContacts,
-	getLoading,
-} from '../../redux/contacts/contacts.selectors';
+import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 
 const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 	useEffect(() => {
@@ -53,8 +49,8 @@ ContactList.propTypes = {
 };
 
 const mstp = state => ({
-	contacts: getFilteredContacts(state),
-	loading: getLoading(state),
+	contacts: contactsSelectors.getFilteredContacts(state),
+	loading: contactsSelectors.getLoading(state),
 });
 
 const mdtp = dispatch => ({

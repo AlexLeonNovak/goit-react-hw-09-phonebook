@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 import { notice } from '../../libs/pnotify';
 import { FormGroup, Label, FormElement, Button, Input } from '../../Styles';
-import { addContact } from '../../redux/contacts/contacts.operations';
-import { getAllContacts } from '../../redux/contacts/contacts.selectors';
+
+import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 
 const initState = {
 	name: '',
@@ -82,11 +82,11 @@ Form.propTypes = {
 };
 
 const mstp = state => ({
-	contacts: getAllContacts(state),
+	contacts: contactsSelectors.getAllContacts(state),
 });
 
 const mdtp = dispatch => ({
-	onFormSubmit: contact => dispatch(addContact(contact)),
+	onFormSubmit: contact => dispatch(contactsOperations.addContact(contact)),
 });
 
 export default connect(mstp, mdtp)(Form);

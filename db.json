@@ -1,19 +1,14 @@
 {
   "contacts": [
     {
-      "name": "Test",
-      "phone": "0500000000",
-      "id": "XoeYxal"
-    },
-    {
-      "name": "Олександр Новак",
-      "phone": "+380 67 226 59 58",
-      "id": "Phm-kAQ"
-    },
-    {
       "name": "test test",
       "phone": "+345345345345",
       "id": "qlzWTgr"
+    },
+    {
+      "name": "Test",
+      "phone": "0500000000",
+      "id": "AZkcDdQ"
     }
   ]
 }
