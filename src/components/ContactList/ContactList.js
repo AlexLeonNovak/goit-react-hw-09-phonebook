@@ -4,6 +4,7 @@ import { Button } from '../../Styles';
 import { Li } from './styles';
 import { connect } from 'react-redux';
 import { contactsSelectors, contactsOperations } from '../../redux/contacts';
+import { loadingSelectors } from '../../redux/loading';
 
 const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 	useEffect(() => {
@@ -16,9 +17,9 @@ const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 			<h1>Contacts</h1>
 			{contacts.length ? (
 				<ul>
-					{contacts.map(({ id, name, phone }) => (
+					{contacts.map(({ id, name, number }) => (
 						<Li key={id}>
-							{name}: {phone}
+							{name}: {number}
 							<Button onClick={() => onDeleteClick(id)}>
 								<span className="material-icons">delete</span>
 								Delete
@@ -50,7 +51,7 @@ ContactList.propTypes = {
 
 const mstp = state => ({
 	contacts: contactsSelectors.getFilteredContacts(state),
-	loading: contactsSelectors.getLoading(state),
+	loading: loadingSelectors.getLoading(state),
 });
 
 const mdtp = dispatch => ({

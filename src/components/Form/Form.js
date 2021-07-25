@@ -10,7 +10,7 @@ import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 
 const initState = {
 	name: '',
-	phone: '',
+	number: '',
 };
 
 class Form extends Component {
@@ -23,10 +23,10 @@ class Form extends Component {
 
 	onFormSubmit = e => {
 		e.preventDefault();
-		const { name, phone } = this.state;
+		const { name, number } = this.state;
 		const { contacts } = this.props;
 		const isContactExist = contacts.some(
-			contact => contact.name === name || contact.phone === phone,
+			contact => contact.name === name || contact.number === number,
 		);
 		if (isContactExist) {
 			notice({
@@ -63,8 +63,8 @@ class Form extends Component {
 					<Input
 						id={inputPhoneId}
 						type="tel"
-						name="phone"
-						value={this.state.phone}
+						name="number"
+						value={this.state.number}
 						onChange={this.onInputChange}
 						required
 					/>
