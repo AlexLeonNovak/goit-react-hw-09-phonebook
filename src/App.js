@@ -1,24 +1,25 @@
-import { Switch, Route } from 'react-router-dom';
-
-import AppBar from './components/AppBar';
-import { HomeView } from './views/HomeView';
-import LoginView from './views/LoginView';
-import { PhonebookView } from './views/PhonebookView';
-import RegisterView from './views/RegisterView';
-
+import { Switch } from 'react-router-dom';
 import { routes } from './routes';
 import './App.css';
 import { Container } from './Styles';
 import { connect } from 'react-redux';
 import { loadingSelectors } from './redux/loading';
+import { authOperations } from './redux/auth';
+import { lazy, useEffect, Suspense } from 'react';
 import { Loader } from './components/Loader';
-import { authOperations, authSelectors } from './redux/auth';
-import { useEffect } from 'react';
+import AppBar from './components/AppBar';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 
-const App = ({ loading, isAuthenticated, onGetCurrentUser }) => {
+const HomeView = lazy(() => import('./views/HomeView'));
+const LoginView = lazy(() => import('./views/LoginView'));
+const PhonebookView = lazy(() => import('./views/PhonebookView'));
+const RegisterView = lazy(() => import('./views/RegisterView'));
+
+const App = ({ loading, onGetCurrentUser }) => {
 	useEffect(() => {
 		onGetCurrentUser();
-	}, []);
+	}, [onGetCurrentUser]);
 
 	return (
 		<>
@@ -26,31 +27,39 @@ const App = ({ loading, isAuthenticated, onGetCurrentUser }) => {
 			{loading && <Loader />}
 
 			<Container>
-				<Switch>
-					<Route exact path={routes.home} component={HomeView} />
-					<Route path={routes.login} component={LoginView} />
-					<Route path={routes.register} component={RegisterView} />
-					{isAuthenticated && (
-						<Route
+				<Suspense fallback={<Loader />}>
+					<Switch>
+						<PublicRoute
+							exact
+							path={routes.home}
+							component={HomeView}
+						/>
+						<PublicRoute
+							path={routes.login}
+							restricted
+							redirectTo={routes.phonebook}
+							component={LoginView}
+						/>
+						<PublicRoute
+							path={routes.register}
+							restricted
+							redirectTo={routes.phonebook}
+							component={RegisterView}
+						/>
+						<PrivateRoute
 							path={routes.phonebook}
+							redirectTo={routes.login}
 							component={PhonebookView}
 						/>
-					)}
-				</Switch>
+					</Switch>
+				</Suspense>
 			</Container>
-			{/*<Container>*/}
-			{/*	<h1>Phonebook</h1>*/}
-			{/*	<Form />*/}
-			{/*	<Filter />*/}
-			{/*	<ContactList />*/}
-			{/*</Container>*/}
 		</>
 	);
 };
 
 const mapStateToProps = state => ({
 	loading: loadingSelectors.getLoading(state),
-	isAuthenticated: authSelectors.getIsAuthenticated(state),
 });
 
 const mapDispatchToProps = {

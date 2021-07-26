@@ -2,7 +2,7 @@ import Form from '../components/Form';
 import Filter from '../components/Filter';
 import ContactList from '../components/ContactList';
 
-export const PhonebookView = () => (
+const PhonebookView = () => (
 	<>
 		<h1>Phonebook</h1>
 		<Form />
@@ -10,3 +10,5 @@ export const PhonebookView = () => (
 		<ContactList />
 	</>
 );
+
+export default PhonebookView;

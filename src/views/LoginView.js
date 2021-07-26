@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { authOperations } from '../redux/auth';
 
-export class LoginView extends Component {
+class LoginView extends Component {
 	state = {
 		email: '',
 		password: '',

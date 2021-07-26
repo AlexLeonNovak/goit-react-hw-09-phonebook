@@ -9,7 +9,7 @@ import { loadingSelectors } from '../../redux/loading';
 const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 	useEffect(() => {
 		fetchContacts();
-	}, []);
+	}, [fetchContacts]);
 
 	return (
 		<>
