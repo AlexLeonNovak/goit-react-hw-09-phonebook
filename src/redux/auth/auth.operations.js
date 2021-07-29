@@ -14,7 +14,7 @@ export const token = {
 
 export const register = credentials => dispatch => {
 	dispatch(authActions.registerRequest());
-
+	console.log(credentials);
 	axios
 		.post('/users/signup', credentials)
 		.then(response => {

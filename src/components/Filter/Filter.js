@@ -1,9 +1,20 @@
 import shortid from 'shortid';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormElement, FormGroup, Input, Label } from '../../Styles';
 import { contactsSelectors, contactsActions } from '../../redux/contacts';
+import { useCallback } from 'react';
 
-const Filter = ({ value, onFilterInput }) => {
+const Filter = () => {
+	const dispatch = useDispatch();
+	const value = useSelector(contactsSelectors.getFilter);
+
+	const onFilterChange = useCallback(
+		e => {
+			dispatch(contactsActions.changeFilter(e.target.value));
+		},
+		[dispatch],
+	);
+
 	const inputFilterId = shortid.generate();
 	return (
 		<FormElement>
@@ -13,19 +24,11 @@ const Filter = ({ value, onFilterInput }) => {
 					id={inputFilterId}
 					name="filter"
 					value={value}
-					onChange={onFilterInput}
+					onChange={onFilterChange}
 				/>
 			</FormGroup>
 		</FormElement>
 	);
 };
 
-const mstp = state => ({
-	value: contactsSelectors.getFilter(state),
-});
-
-const mdtp = dispatch => ({
-	onFilterInput: e => dispatch(contactsActions.changeFilter(e.target.value)),
-});
-
-export default connect(mstp, mdtp)(Filter);
+export default Filter;

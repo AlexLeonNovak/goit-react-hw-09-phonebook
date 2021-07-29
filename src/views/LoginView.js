@@ -1,59 +1,51 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../redux/auth';
 
-class LoginView extends Component {
-	state = {
-		email: '',
-		password: '',
-	};
+const LoginView = () => {
+	const [email, setEmail] = useState('');
+	const handleEmailChange = ({ target }) => setEmail(target.value);
 
-	handleChange = ({ target: { name, value } }) => {
-		this.setState({ [name]: value });
-	};
+	const [password, setPassword] = useState('');
+	const handlePasswordChange = ({ target }) => setPassword(target.value);
 
-	handleSubmit = e => {
+	const dispatch = useDispatch();
+
+	const handleSubmit = e => {
 		e.preventDefault();
-		this.props.onLogin(this.state);
-		this.setState({ email: '', password: '' });
+		dispatch(authOperations.login({ email, password }));
+		setEmail('');
+		setPassword('');
 	};
 
-	render() {
-		const { email, password } = this.state;
+	return (
+		<div>
+			<h1>Login</h1>
+			<form onSubmit={handleSubmit} className="form">
+				<label className="form-label">
+					Email
+					<input
+						type="email"
+						name="email"
+						value={email}
+						onChange={handleEmailChange}
+					/>
+				</label>
 
-		return (
-			<div>
-				<h1>Login</h1>
-				<form onSubmit={this.handleSubmit} className="form">
-					<label className="form-label">
-						Email
-						<input
-							type="email"
-							name="email"
-							value={email}
-							onChange={this.handleChange}
-						/>
-					</label>
+				<label className="form-label">
+					Password
+					<input
+						type="password"
+						name="password"
+						value={password}
+						onChange={handlePasswordChange}
+					/>
+				</label>
 
-					<label className="form-label">
-						Password
-						<input
-							type="password"
-							name="password"
-							value={password}
-							onChange={this.handleChange}
-						/>
-					</label>
-
-					<button type="submit">Login</button>
-				</form>
-			</div>
-		);
-	}
-}
-
-const mapDispatchToProps = {
-	onLogin: authOperations.login,
+				<button type="submit">Login</button>
+			</form>
+		</div>
+	);
 };
 
-export default connect(null, mapDispatchToProps)(LoginView);
+export default LoginView;

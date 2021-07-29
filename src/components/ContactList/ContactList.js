@@ -1,19 +1,26 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useCallback, useEffect } from 'react';
 import { Button } from '../../Styles';
 import { Li } from './styles';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { contactsSelectors, contactsOperations } from '../../redux/contacts';
-import { loadingSelectors } from '../../redux/loading';
 
-const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
+export default function ContactList() {
+	const dispatch = useDispatch();
+	const contacts = useSelector(contactsSelectors.getFilteredContacts);
+
+	const fetchContacts = useCallback(
+		() => dispatch(contactsOperations.fetchContacts()),
+		[dispatch],
+	);
+
+	const onDeleteClick = id => dispatch(contactsOperations.deleteContact(id));
+
 	useEffect(() => {
 		fetchContacts();
 	}, [fetchContacts]);
 
 	return (
 		<>
-			{loading && <h3>Loading...</h3>}
 			<h1>Contacts</h1>
 			{contacts.length ? (
 				<ul>
@@ -32,31 +39,4 @@ const ContactList = ({ contacts, loading, onDeleteClick, fetchContacts }) => {
 			)}
 		</>
 	);
-};
-
-ContactList.defaultProps = {
-	contacts: [],
-};
-
-ContactList.propTypes = {
-	contacts: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			number: PropTypes.string.isRequired,
-		}),
-	),
-	onDeleteClick: PropTypes.func.isRequired,
-};
-
-const mstp = state => ({
-	contacts: contactsSelectors.getFilteredContacts(state),
-	loading: loadingSelectors.getLoading(state),
-});
-
-const mdtp = dispatch => ({
-	onDeleteClick: id => dispatch(contactsOperations.deleteContact(id)),
-	fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
-});
-
-export default connect(mstp, mdtp)(ContactList);
+}

@@ -2,7 +2,7 @@ import { Switch } from 'react-router-dom';
 import { routes } from './routes';
 import './App.css';
 import { Container } from './Styles';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadingSelectors } from './redux/loading';
 import { authOperations } from './redux/auth';
 import { lazy, useEffect, Suspense } from 'react';
@@ -16,10 +16,14 @@ const LoginView = lazy(() => import('./views/LoginView'));
 const PhonebookView = lazy(() => import('./views/PhonebookView'));
 const RegisterView = lazy(() => import('./views/RegisterView'));
 
-const App = ({ loading, onGetCurrentUser }) => {
+const App = () => {
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		onGetCurrentUser();
-	}, [onGetCurrentUser]);
+		dispatch(authOperations.getCurrentUser());
+	}, [dispatch]);
+
+	const loading = useSelector(loadingSelectors.getLoading);
 
 	return (
 		<>
@@ -29,28 +33,32 @@ const App = ({ loading, onGetCurrentUser }) => {
 			<Container>
 				<Suspense fallback={<Loader />}>
 					<Switch>
-						<PublicRoute
-							exact
-							path={routes.home}
-							component={HomeView}
-						/>
+						<PublicRoute exact path={routes.home}>
+							<HomeView />
+						</PublicRoute>
+
 						<PublicRoute
 							path={routes.login}
 							restricted
 							redirectTo={routes.phonebook}
-							component={LoginView}
-						/>
+						>
+							<LoginView />
+						</PublicRoute>
+
 						<PublicRoute
 							path={routes.register}
 							restricted
 							redirectTo={routes.phonebook}
-							component={RegisterView}
-						/>
+						>
+							<RegisterView />
+						</PublicRoute>
+
 						<PrivateRoute
 							path={routes.phonebook}
 							redirectTo={routes.login}
-							component={PhonebookView}
-						/>
+						>
+							<PhonebookView />
+						</PrivateRoute>
 					</Switch>
 				</Suspense>
 			</Container>
@@ -58,12 +66,4 @@ const App = ({ loading, onGetCurrentUser }) => {
 	);
 };
 
-const mapStateToProps = state => ({
-	loading: loadingSelectors.getLoading(state),
-});
-
-const mapDispatchToProps = {
-	onGetCurrentUser: authOperations.getCurrentUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
